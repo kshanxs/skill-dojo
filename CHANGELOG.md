@@ -11,7 +11,7 @@ Package-specific history belongs in each skill's own changelog:
 
 ### Added
 
-- Established the Skill Dojo monorepo as the unified wrapper for all writing skills.
+- Established the Skill Dojo repository as the central home for all writing skills.
 - Imported [Calligraph Sensei v1.1.0](skills/calligraph-sensei/README.md) — full source tree including SKILL.md, pipeline, references, evals, and documentation.
 - Imported [TrueDraft v1.2.0](skills/truedraft/README.md) — full source tree including SKILL.md, pipeline, references, examples, assets, and documentation.
 - Added [Research Dojo v1.3.0](skills/research-dojo/README.md) — full source tree including SKILL.md, evals, and documentation.

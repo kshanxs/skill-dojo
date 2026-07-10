@@ -4,9 +4,9 @@
 
 # ✦ Skill Dojo ✦
 
-### *The Mono Wrapper for Research, Drafting, and Writing Skills*
+### *The Central Hub for Research, Drafting, and Writing Skills*
 
-*Three composable AI skills · Independent versioning · Interlinked documentation · One install source*
+*Composable AI skills · Independent versioning · Interlinked documentation · One install source*
 
 <br>
 
@@ -16,8 +16,8 @@
 
 <br>
 
-*Skill Dojo is a version-controlled monorepo that houses three independent, composable AI writing skills.*
-*Each skill can be installed and used standalone, but they are designed to work together as a three-phase pipeline.*
+*Skill Dojo is a version-controlled repository housing independent, composable AI writing skills.*
+*Each skill can be installed and used standalone, but they are designed to work together seamlessly.*
 
 </div>
 
@@ -109,5 +109,5 @@ Copyright © 2026 [Shubhanshu Shukla](https://github.com/kshanxs). All rights re
 
 <p align="center">
   <sub>MIT License &nbsp;•&nbsp; Permission to Modify & Distribute &nbsp;•&nbsp; No Warranty or Liability</sub><br>
-  <sub>Three skills, one repository. Research, draft, and polish with confidence.</sub>
+  <sub>Independent skills, one repository. Research, draft, and polish with confidence.</sub>
 </p>
