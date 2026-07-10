@@ -1,0 +1,17 @@
+{
+  "skill_name": "research-dojo",
+  "evals": [
+    {
+      "id": 0,
+      "prompt": "I want to understand the topic: Universal Basic Income (UBI). Let's run this in one-shot mode.",
+      "expected_output": "A dense, structured 7-step analysis of Universal Basic Income including multi-perspective tables, evidence categorization, a beginner/expert synthesis, and an adversarial stress-test challenging UBI assumptions.",
+      "files": []
+    },
+    {
+      "id": 1,
+      "prompt": "I want to understand the topic: The viability of room-temperature superconductivity claims (specifically focusing on the LK-99 controversy). Let's run this in one-shot mode.",
+      "expected_output": "A dense, structured 7-step analysis of LK-99 and room-temperature superconductivity, featuring practitioner/academic viewpoints, contradiction mapping, evidence audit classifying facts vs speculations, and a rigorous critique of the claims.",
+      "files": []
+    }
+  ]
+}

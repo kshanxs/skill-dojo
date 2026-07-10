@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+repository_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+required_paths=(
+  "README.md"
+  "CHANGELOG.md"
+  "LICENSE"
+  "docs/architecture.md"
+  "docs/installation.md"
+  "docs/releases.md"
+  "skills/calligraph-sensei/README.md"
+  "skills/calligraph-sensei/CHANGELOG.md"
+  "skills/truedraft/README.md"
+  "skills/truedraft/CHANGELOG.md"
+  "skills/research-dojo/README.md"
+  "skills/research-dojo/CHANGELOG.md"
+)
+
+for required_path in "${required_paths[@]}"; do
+  if [[ ! -f "${repository_root}/${required_path}" ]]; then
+    printf 'Missing required file: %s\n' "${required_path}" >&2
+    exit 1
+  fi
+done
+
+printf 'Skill Dojo skeleton structure is valid.\n'
