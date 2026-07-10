@@ -62,7 +62,7 @@ The skills are designed to operate independently, but they connect as a sequenti
 Phase 0                    Phase 1                    Phase 2
 ┌──────────────┐          ┌──────────────┐          ┌──────────────┐
 │ Research Dojo│    →     │  TrueDraft   │    →     │  Calligraph  │
-│              │          │              │          │    Sensei     │
+│              │          │              │          │    Sensei    │
 │ Stress-test  │          │ Structure    │          │ Polish style │
 │ claims, map  │          │ the draft,   │          │ and readabi- │
 │ debates, and │          │ manage cita- │          │ lity, run    │
