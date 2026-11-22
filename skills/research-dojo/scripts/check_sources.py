@@ -154,9 +154,9 @@ def fetch(url: str) -> Tuple[int, str]:
     request = urllib.request.Request(url, headers={"User-Agent": USER_AGENT, "Accept": "application/json, application/atom+xml, text/html;q=0.8, */*;q=0.5"})
     opener = urllib.request.build_opener(_SafeRedirect)
     code = 0
-    for attempt in range(2):  # one retry for a brief outage or rate limit
+    for attempt in range(3):  # retry a brief outage or rate limit
         if attempt:
-            time.sleep(1.5)
+            time.sleep(1.5 * attempt)
         try:
             with opener.open(request, timeout=TIMEOUT) as response:
                 return response.status, response.read(2_000_000).decode("utf-8", "replace")
