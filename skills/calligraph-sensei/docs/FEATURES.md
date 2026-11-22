@@ -1,97 +1,53 @@
-# Calligraph Sensei — Features & Reference
+# Calligraph Sensei Features
 
-**v1.1** · *Complete feature list, command reference, and style architecture*
+**v2.0.0**
 
----
+## Editing Modes
 
-## The Five Specialized Modes
+| Mode | Use for | Changes |
+|---|---|---|
+| Proofreading | Final drafts | Objective errors only. Style and punctuation choices stay |
+| General (default) | Articles, documentation, non-fiction | Clarity, directness, rhythm |
+| Creative | Fiction and narrative | Prose only. Plot, facts, and dialogue voice stay |
+| Academic-Formal | Essays and papers | Formal clarity, with every hedge and citation kept |
+| Conversational | Emails, posts, messages | Warmer and looser, still the author |
+| Code comments | Source code | Comments only. Code never changes |
+| Audit | Any text | Nothing. Report only |
 
-Calligraph Sensei adapts its styling logic based on the requested writing mode:
+## Tools
 
-### 1. Creative / Fiction
-Designed for novels, short stories, and narrative prose. Focuses on immersive, sensory-rich language.
-* **Sensory Detail:** Grounds descriptions in the five senses rather than relying on abstract adjectives.
-* **Show, Don't Tell:** Exposes emotions through physical actions, body language, and environmental details rather than flat statements.
-* **Narrative Pacing:** Rotates sentence structures to match narrative action (short sentences for tension, flowing clauses for reflection).
-
-### 2. Academic-Formal
-Designed for essays, reports, research papers, and manuscripts. Focuses on analytical rigor and objective tone.
-* **No Contractions:** Strictly avoids informal contractions.
-* **Hedging & Objectivity:** Evaluates claims with appropriate academic qualifications (e.g., *suggests, indicates, potentially, likely*).
-* **Sophisticated Cadence:** Embeds clause transitions rather than repeating mechanical block starters.
-
-### 3. Non-fiction / General (Default)
-Designed for articles, documentation, blogs, and marketing copy. Focuses on clarity, impact, and audience engagement.
-* **Analogy Integration:** Explains complex technical topics using concrete, real-world analogies.
-* **Active Verb Density:** Converts passive structures into active voice to drive energy and directness.
-* **Visual Scaffolding:** Organizes logic with clean heading hierarchies and bullet formats.
-
-### 4. Conversational / Casual
-Designed for emails, Slack messages, social copy, and blog commentary. Focuses on a warm, approachable voice.
-* **Permissive Contractions:** Integrates contractions freely to mirror natural human speech.
-* **Warm Transitions:** Employs friendly, spoken transitions (e.g., *so, actually, look, in short, to be honest*).
-* **Speech Cadence:** Integrates conversational asides, fragments, and dashes to simulate spoken rhythms.
-
-### 5. Proofreading / Correction
-Designed for final drafts where you want to fix errors without altering the writer's style or vocabulary.
-* **Zero Style Shifts:** Disables all perplexity, burstiness, and word substitution rules.
-* **Objective Correction:** Scans for and corrects spelling mistakes, typos, punctuation errors, and clear grammatical slips (e.g., subject-verb agreement, incorrect verb conjugations).
-* **Correction Log:** Compiles a table detailing every fix, complete with the original snippet, the corrected version, and the explanation.
-
----
-
-## Anti-AI Detection Engine (Originality metrics)
-
-The skill optimizes prose against the statistical thresholds that detectors (e.g., Turnitin, Copyleaks, GPTZero) classify as "robotic":
-
-### 1. Perplexity Tuning (Vocabulary Unpredictability)
-AI models choose the most statistically probable next token. Calligraph Sensei breaks this by injecting precise, low-probability synonyms and structures:
-* **Lexical Substitution:** Replaces overused AI words (e.g., *important, crucial, delve, showcase, testament*) with precise, lower-frequency human synonyms (e.g., *salient, pivotal, examine, illustrate, evidence of*).
-* **Mid-Sentence Pivots:** Inserts qualifying clauses or dashes in the middle of sentences to disrupt linear syntax.
-
-### 2. Burstiness Simulation (Length Variation)
-AI writes in a flat rhythm (sentence lengths between 12-18 words). Calligraph Sensei enforces the **10-30-5 Rule**:
-* Ensure each major paragraph contains at least one sentence under 10 words, one sentence over 25 words, and a middle sentence of standard length (12-18 words).
-
-### 3. Sentence Type Rotation
-Prevents consecutive sentences from sharing the same grammatical form. The engine rotates among **Analytical, Causal, Comparative, Hypothetical, Observational, and Active/Narrative** sentence types.
-
-### 4. Semantic Preservation Audit
-Runs a final checklist (`references/audit_checklist.md`) to verify that no semantic drift, factual change, or proper noun modification occurred during refactoring.
-
----
-
-## v1.1 Additions: Detection Catalog + Personality Pass
-
-### 5. AI Signature Detection Catalog (new in v1.1)
-An explicit pattern checklist you can audit your rewrite against before delivery. Covers the 14 AI writing tells documented on Wikipedia's "Signs of AI writing" page:
-
-* **Em dash overuse** — max 2 per paragraph in style modes, 0 in proofreading
-* **Rule of three** — vary list structures (pairs, singles, fours)
-* **Negative parallelisms** — "It's not just X. It's Y."
-* **Inflated symbolism** — "More than just a tool, it represents..."
-* **Promotional language** — bustling, vibrant, groundbreaking, etc.
-* **Vague attributions** — "Experts say...", "Industry reports suggest..."
-* **Superficial -ing analyses** — ensuring, highlighting, showcasing
-* **Sycophantic openings** — "Great question!", "Certainly!"
-* **Generic filler** — "At its core", "Ultimately", "Fundamentally"
-* And more — see `references/humanise.md` Section 4 for the full list
-
-### 6. Personality & Soul Pass (new in v1.1)
-Removing AI patterns is only half the job. Sterile, voiceless writing is just as obvious as slop. v1.1 adds explicit guidance on adding voice, opinions, varied rhythm, specific feelings, and first-person perspective where appropriate. See `references/humanise.md` Section 5.
-
-### 7. Workflow Discipline (new in v1.1)
-The final meta-check before delivery: would a skeptical reader say "this was written by a person"? Plus an explicit list of cases where you should NOT humanize (technical docs, legal language, API references, etc).
-
----
-
-## Command Reference
-
-| Command Phrase | What happens |
+| Tool | What it does |
 |---|---|
-| `"Humanise this: [paste]"` / `"Make this sound human"` | Runs the polisher using the default General style. |
-| `"Polish this novel draft / story: [paste]"` | Activates the Creative/Fiction mode to enhance pacing. |
-| `"De-risk this essay: [paste]"` | Activates the Academic-Formal mode (retains formal tone). |
-| `"Make this draft more conversational: [paste]"` | Activates the Conversational/Casual mode. |
-| `"Refactor the comments in this code: [paste]"` | Polishes code comments while protecting code blocks. |
-| `"Proofread this: [paste]"` / `"Check for grammar/spelling errors: [paste]"` | Activates Proofreading/Correction mode to fix objective errors while keeping your precise voice. |
+| `prose_lint.py` | Finds doubled words, misspellings, grammar slips, a/an errors, assistant residue, stock phrases, vague sourcing, em dash overuse, and mixed spelling |
+| `preserve_check.py` | Compares an edit with its original for numbers, dates, citations, links, quotations, code, and headings, and raises names, negation, and hedges for review |
+| `voice_profile.py` | Compares sentence length, contractions, person, and punctuation habits between an original and its edit |
+| `snapshot.py` | Saves a checksum-verified copy before editing |
+
+All tools skip code, links, and front matter, need only Python 3.9+, and never change the file they read.
+
+## Calibration
+
+The linter was tuned on about 1.6 million words of human writing: 14 public-domain books and 10 Wikipedia articles. On that set, it raises about 0.2 errors and warnings per 1,000 words. Short public-domain excerpts in `tests/corpus/` guard this in the test suite.
+
+## Project Settings
+
+`.calligraph.json` sets allowed and banned terms, disabled rules, and the em dash policy. See the [tool reference](../references/tools.md).
+
+## Commands
+
+| Say | What happens |
+|---|---|
+| `Proofread this: [text]` | Proofreading |
+| `Polish this: [text]` | General edit |
+| `Polish this story: [text]` | Creative edit |
+| `Polish this essay: [text]` | Academic edit |
+| `Make this more conversational: [text]` | Conversational edit |
+| `Clean up the comments in this code` | Code comments |
+| `Audit my writing: [text]` | Report only |
+
+## Limits
+
+- It is not an AI detector and makes no claim about who wrote a text.
+- The linter catches a small set of high-confidence errors. It does not replace a full grammar checker or a human editor.
+- Rules are English-focused.
+- `preserve_check.py` compares surface details and cannot judge meaning.

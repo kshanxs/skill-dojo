@@ -23,8 +23,8 @@ This stage reduces similarity risks, applies sentence variety, and enhances read
    - **Level 3 (Conversational):** Apply Level 2 + allow contractions, use a warmer, more engaging tone throughout, use short punchy sentences.
 3. **Apply Style Randomization:**
    - Ensure every paragraph contains at least two distinct sentence types (Analytical, Causal, Comparative, Hypothetical, Observational) from `references/style_randomization.md`.
-   - Ensure **Length Variation (Burstiness)**: Every paragraph must feature a mix of very short sentences (<10 words) and long, clause-rich sentences (>20 words).
-   - Inject **Perplexity**: Replace 1-2 predictable academic words per paragraph with less expected but accurate synonyms.
+   - Vary sentence length where it helps the argument. Do not force a quota.
+   - Replace a word only when the new one is more exact. Do not add rare synonyms for variety.
 4. **Remove Originality Targets:** Cut cliché academic intros (e.g. "In today's world..."), stock examples, robotic transitions, and repeating sentence openers.
 5. **Preserve Integrity:** Keep all factual claims, technical terms, citations, and placeholders (`[CITE: ...]` or `[UNVERIFIED: ...]`) exactly intact.
 

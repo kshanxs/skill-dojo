@@ -1,22 +1,39 @@
-# Research Dojo — Usage Guide
+# Research Dojo Usage Guide
 
 > You do not need to memorize any commands. Just talk naturally. This guide shows you what is possible and exactly what the conversation looks like.
 
 ---
 
-## Quick Start
+## Fact-Check a Draft
 
+```text
+"Fact-check this draft: chapter-3.md"
 ```
+
+1. The agent runs the offline checks and writes `fact-check/chapter-3.factcheck.md` and `.json`.
+2. It asks before looking sources up online.
+3. It checks the high-priority claims against real sources and records the evidence.
+4. It reports what is verified, contradicted, disputed, unverifiable, and still unchecked.
+
+Your draft is not changed. Ask for a flagged copy if you want one:
+
+```bash
+python3 scripts/dojo_check.py chapter-3.md --annotate fact-check/chapter-3.flagged.md
+```
+
+Flags look like `[UNVERIFIED C012]`, `[DATE: This date was a Wednesday, not a Tuesday.]`, or `[SOURCE retracted: 10.1000/xyz]`.
+
+See the [fact-check workflow](../references/fact_check.md) for statuses and the ledger format.
+
+## Explore a Topic
+
+```text
 "I want to understand the topic: [TOPIC]"
 ```
 
-When you query a topic, the agent activates the Research Dojo pipeline.
-
----
-
 ## Execution Modes
 
-To prevent output token limits and keep the analysis deep, the dojo offers two execution modes:
+The seven-step analysis has two modes:
 
 ### 1. Interactive Mode (Recommended)
 The agent executes the process in stages. It generates Steps 1–3 (Map, Perspectives, and Contradictions), then pauses for your review. This lets you refine the map and correct any errors before the agent builds the synthesis and stress-tests it.

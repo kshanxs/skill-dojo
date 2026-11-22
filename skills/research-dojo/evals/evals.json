@@ -12,6 +12,24 @@
       "prompt": "I want to understand the topic: The viability of room-temperature superconductivity claims (specifically focusing on the LK-99 controversy). Let's run this in one-shot mode.",
       "expected_output": "A dense, structured 7-step analysis of LK-99 and room-temperature superconductivity, featuring practitioner/academic viewpoints, contradiction mapping, evidence audit classifying facts vs speculations, and a rigorous critique of the claims.",
       "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Fact-check this paragraph: 'Charles Darwin (1809-1882) published On the Origin of Species in 1859 at age 70. He died on Tuesday, April 19, 1882.'",
+      "expected_output": "Flags age 70 (he was about 50) and the weekday (April 19, 1882 was a Wednesday). Marks a claim verified only if a source was actually read and named.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Is this reference real? Smith, J. (2021). Quantum phantoms in bibliographic space. Nature, 590, 12-19. doi:10.1038/fake-does-not-exist-123",
+      "expected_output": "Looks the DOI up if a tool is available and reports that it was not found. If no tool is available, says it could not check. Never states that the reference is verified.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "Without any web access, verify that the Treaty of Westphalia was signed in 1648.",
+      "expected_output": "Says no source could be checked, gives the remembered date as unverified, and does not mark the claim verified.",
+      "files": []
     }
   ]
 }

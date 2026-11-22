@@ -1,68 +1,58 @@
-# research-dojo — Features & Reference
+# Research Dojo Features
 
-**v1.1** · *Complete feature list, command reference, and skill architecture*
+**v2.0.0**
 
----
+## Fact-Check Mode
 
-## The 7-Step Analytical Pipeline
-
-The research-dojo skill guides the agent through seven distinct quality gates to evaluate any topic, claim, or plan:
-
-### 1. Build the Map
-Maps the domain topography by defining the core question, foundational concepts, common beginner misconceptions, key active debates, and critical unasked questions/blind spots.
-
-### 2. Multi-Perspective Analysis
-Evaluates the topic from six critical angles (by default: *Practitioner, Academic Researcher, Skeptic, Historian, Economist, Systems Thinker*).
-* **Smart Substitution**: If the topic is highly specialized (e.g., pure mathematics, ethics, creative arts), the agent may dynamically swap up to two default perspectives for domain-specific ones (e.g., *Mathematician*, *Ethicist*, *Aesthetic Designer*, *Legal Expert*) to ensure a more relevant and rigorous analysis.
-
-For each perspective, the agent details its main claim, strongest evidence, weakest assumption, and unique insights.
-
-### 3. Contradiction Analysis
-Identifies exactly where viewpoints collide, why they collide, and isolates whether these collisions stem from evidence conflicts or divergent values/incentives.
-
-### 4. Evidence Audit & Grounding
-Rigorously reviews claims by categorizing them into established facts, strong theories, and speculation. 
-* **Active Grounding**: The agent performs targeted web searches to retrieve up-to-date peer reviews, conflicting datasets, or replication studies before auditing claims, ensuring confidence levels are backed by real-time evidence.
-* Evaluates each claim's confidence level, supporting evidence, counter-evidence, and its falsifiability threshold.
-
-### 5. Synthesis
-Compiles a dual-depth summary: a 200-word beginner explanation, a 500-word expert analysis, a conceptual mental model, and outlines historical, practical, and future implications.
-
-### 6. Stress Test
-Adopts the persona of a hostile critic to challenge assumptions, expose weak evidence, and offer alternative explanations for the data.
-
-### 7. Final Judgment
-Renders the verdict on what is most likely true, what remains uncertain, common misunderstandings, practical takeaways, and prompts three high-value follow-up questions.
-
----
-
-## Command Reference
-
-| Command Phrase | What happens |
+| Feature | What it does |
 |---|---|
-| `"I want to understand the topic: [TOPIC]"` | Initializes the 7-step analysis on the chosen topic |
-| `"Run in interactive mode"` | Splices execution, pausing after Step 3 for user course-corrections |
-| `"Run in one-shot mode"` | Executes all 7 steps in a single dense markdown response |
-| `"Challenge the synthesis"` | Directly runs Step 6 (Stress Test) on an existing summary |
-| `"Audit this claim: [CLAIM]"` | Evaluates a single specific claim using Step 4 guidelines |
+| Claim extraction | Finds sentences with dates, numbers, quotations, attributions, superlatives, and causal claims, ranked by priority |
+| Date checks | Flags impossible dates, wrong weekdays, reversed ranges, implausible lifespans, age errors, elapsed-time errors, future events in the past tense, and ambiguous numeric dates |
+| Calendar awareness | Separates true errors from dates that fit the Julian (Old Style) calendar |
+| Identifier checks | Validates ISBN and ISSN checksums and DOI and arXiv formats offline |
+| Source lookup | With `--online`, checks Crossref, doi.org, arXiv, Open Library, and linked pages |
+| Retraction flags | Reports works marked retracted or withdrawn in Crossref, including Retraction Watch data |
+| Mismatch detection | Compares a citation's year, title, and authors with the record |
+| Evidence ledger | Stores the status, source, locator, and date for each claim |
+| Honest status | `--validate` rejects a `verified` claim with no recorded evidence |
+| Safe re-runs | Keeps reviews of unchanged sentences and resets changed ones |
 
----
+## Seven-Step Analysis
 
-## Repository Architecture
+1. **Build the map:** core question, concepts, misconceptions, debates, and blind spots.
+2. **Multi-perspective analysis:** six viewpoints, with domain-specific swaps.
+3. **Contradiction analysis:** evidence conflicts and value conflicts.
+4. **Evidence audit:** confidence, best evidence, counter-evidence, and what would change the conclusion.
+5. **Synthesis:** beginner and expert explanations, a mental model, and implications.
+6. **Stress test:** the strongest hostile critique.
+7. **Final judgment:** what holds up, what is uncertain, and what to do.
 
+## Commands
+
+| Say | What happens |
+|---|---|
+| `Fact-check this draft: [file or paste]` | Fact-check mode |
+| `Check the dates in this` | Date checks |
+| `Are these references real?` | Source checks |
+| `Audit this claim: [claim]` | Single-claim audit |
+| `I want to understand the topic: [topic]` | Seven-step analysis |
+| `Run in interactive mode` | Pauses after Step 3 |
+| `Run in one-shot mode` | All seven steps at once |
+| `Challenge the synthesis` | Step 6 on an existing summary |
+
+## Package Layout
+
+```text
+skills/research-dojo/
+├── SKILL.md            Agent instructions
+├── references/         Workflows, loaded when needed
+├── scripts/            Standard-library Python tools
+├── evals/              Test prompts
+└── docs/               Usage and features
 ```
-ResearchDojoProject/
-│
-├── README.md                    ← Main installation page
-├── CHANGELOG.md                 ← Version release notes
-├── LICENSE                      ← MIT License
-│
-├── docs/                        ← Repository documentation
-│   ├── USAGE.md                 ← Usage examples and workflows
-│   └── FEATURES.md              ← This file
-│
-└── research-dojo/               ← The core skill folder
-    ├── SKILL.md                 ← Core agent instructions
-    └── evals/
-        └── evals.json           ← Test prompts for verification
-```
+
+## Limits
+
+- Automatic checks find inconsistencies and bad identifiers. They cannot establish that a claim is true.
+- Claim extraction is English-focused and may miss implied claims.
+- Coverage gaps in public databases mean `not_found` is not proof that a source is fake.

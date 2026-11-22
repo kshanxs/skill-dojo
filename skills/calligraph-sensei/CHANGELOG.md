@@ -2,6 +2,27 @@
 
 All notable changes to the `calligraph-sensei` skill will be documented in this file.
 
+## v2.0.0 — 2026-11-22
+
+### Breaking
+- **Repositioned around voice-preserving editing.** Removed the "bypass AI detectors" and "de-risk" triggers and all claims about beating detectors. The skill makes no authorship claims and will not help conceal AI use where disclosure is required.
+- **Replaced "perplexity tuning".** The old guidance told the editor to swap plain words for rarer ones, including words its own catalog banned. `references/style_randomization.md` is now `references/rhythm.md`.
+- **Removed project-specific integrations.** The skill now works with any project through generic conventions.
+
+### Added
+- `scripts/prose_lint.py`: Markdown-aware linter for high-confidence errors and overused patterns, with per-project settings in `.calligraph.json`.
+- `scripts/preserve_check.py`: compares an edit with its original for changed numbers, citations, links, quotations, code, headings, names, negation, and hedges.
+- `scripts/voice_profile.py`: measures an edit's drift from its original's writing habits.
+- `scripts/snapshot.py`: saves a verified copy before a file is edited.
+- `references/tools.md`: tool options, settings, and limits.
+
+### Fixed
+- Proofreading mode no longer strips the author's em dashes.
+- Worked examples no longer invent facts. One had added "without memory overhead" to a sentence, which broke the skill's own preservation rule.
+- The voice pass no longer tells the editor to add opinions, feelings, or first-person statements the author did not write.
+- Code-comment examples no longer invent reasons or complexity claims.
+- Removed unsupported "AI risk" ratings and fixed sentence-length thresholds.
+
 ## v1.1.0 — 2026-07-01
 - **AI Signature Detection Catalog (Section 4 of humanise.md):** Pulled from the Wikipedia "Signs of AI writing" community guide. Adds explicit detection patterns that were missing: em dash overuse (max 2 per paragraph), rule of three, negative parallelisms, inflated symbolism, promotional adjectives, vague attributions, sycophantic openings, generic filler openers, superficial -ing analyses.
 - **Personality & Soul Section (Section 5 of humanise.md):** New guidance on adding voice, not just removing slop. Prevents rewrites from becoming sterile technical exercises.
@@ -16,5 +37,5 @@ All notable changes to the `calligraph-sensei` skill will be documented in this 
 - **Five Specialized Modes:** Added support for Creative/Fiction, Academic-Formal, Non-fiction/General, Conversational/Casual, and conservative Proofreading/Correction styles.
 - **Automatic Intent Routing:** Integrated a dispatcher to automatically select the correct mode based on prompt keywords (e.g., proofread vs. humanise).
 - **Originality & Readability Engine:** Enforced statistical perplexity tuning, sentence type rotation, burstiness length variation, and semantic preservation audits.
-- **Synergy & Boundaries:** Established integration guidelines and boundaries for TrueDraft and Book Writer companion skills.
+- **Synergy & Boundaries:** Established integration guidelines and boundaries for companion skills.
 - **Documentation Scaffold:** Organized documentation files with a root LICENSE and a `docs/` folder containing FEATURES.md and USAGE.md.

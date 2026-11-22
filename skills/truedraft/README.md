@@ -42,7 +42,7 @@ The AI guides you through setup one question at a time. Every question is skippa
 | | |
 |---|---|
 | **The Assignment Forge** | 9-question interactive onboarding (rubrics, citation style, constraints) |
-| **Originality-First Rewrite** | Style randomization (perplexity/burstiness tuning) to break formulaic phrasing |
+| **Originality-First Rewrite** | Sentence variety and precise wording to break formulaic phrasing |
 | **Source Divergence Scan** | Pre-drafting check blacklisting canonical examples and stock analogies |
 | **Search-First Citation Engine** | Uses host search tools to locate real papers; strictly defaults to placeholders on search fail |
 | **Humanise Readability** | Three levels (Light / Standard / Conversational) with before/after sentence audits |
@@ -113,7 +113,7 @@ skills/truedraft/
 TrueDraft works seamlessly with the other skills in this suite:
 
 1. **[Research Dojo](../research-dojo/README.md) (Phase 0):** Stress-test claims, map active academic debates, audit evidence, and build a high-density concept map before drafting.
-2. **[Calligraph Sensei](../calligraph-sensei/README.md) (Phase 2):** Apply advanced perplexity tuning, sentence burstiness, and diagnostic writing audits, or run a conservative Proofreading pass on the final manuscript.
+2. **[Calligraph Sensei](../calligraph-sensei/README.md) (Phase 2):** Run writing audits, a voice-preserving polish, or a conservative Proofreading pass on the final manuscript.
 
 ---
 
