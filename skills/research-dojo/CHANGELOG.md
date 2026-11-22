@@ -2,10 +2,25 @@
 
 All notable changes to the `research-dojo` skill will be documented in this file.
 
+## v2.0.0 — 2026-11-22
+
+### Breaking
+- **Removed workspace-specific behavior.** The skill no longer changes behavior based on a particular project folder. It now follows generic conventions in any writing project.
+- **`SKILL.md` restructured.** The seven-step detail moved to `references/seven_step.md`, loaded only when needed.
+
+### Added
+- **Fact-check mode** with a claim ledger, a report, and optional flagged copies. The input file is never changed.
+- `scripts/check_dates.py`: finds impossible dates, wrong weekdays (aware of Julian and Gregorian calendars), reversed ranges, and age or elapsed-time errors.
+- `scripts/check_sources.py`: validates ISBN, ISSN, arXiv, and DOI formats offline. With `--online`, looks up sources and flags retractions, mismatched metadata, and dead links.
+- `scripts/extract_claims.py`: lists checkable claims by priority.
+- `scripts/dojo_check.py`: runs everything, keeps reviews across re-runs, and rejects any `verified` status that has no recorded evidence.
+
+### Fixed
+- Step 4 no longer assumes that a search tool exists. Without one, claims stay `unchecked`.
+- Corrected the stale version and repository layout in the docs.
+
 ## v1.3.0 — 2026-06-21
-- **Book-Writer Integration & Boundary Protocol:** Added boundary controls to prevent prompt-clash and persona contamination during book manuscript projects.
-  - Added a Boundary Protocol restricting research-dojo to fact/analogy/argument audits (no narrative drafting) when a `book-memory-bank` is detected in the workspace.
-  - Expanded the Production Hand-off in `SKILL.md` with explicit templates and workflows for export to `book-writer` non-fiction projects.
+- **Project Boundary Protocol:** Added controls to keep research output separate from drafting in long-form projects.
 
 ## v1.2.0 — 2026-06-21
 - **Synergistic Integration (TrueDraft):** Integrated modular cross-referencing capabilities with the companion `TrueDraft` skill.

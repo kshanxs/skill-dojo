@@ -1,4 +1,4 @@
-# Calligraph Sensei — Usage Guide
+# Calligraph Sensei Usage Guide
 
 This guide shows you how to interact with Calligraph Sensei, how its automatic intent routing operates, and what the output formats look like.
 
@@ -14,91 +14,72 @@ Calligraph Sensei will automatically identify the intent, select the appropriate
 
 ---
 
-## Execution Workflows
+## How It Chooses a Mode
 
-Calligraph Sensei operates through three core workflows:
+| You ask to | Mode |
+|---|---|
+| Proofread, fix grammar, spelling, or typos | Proofreading |
+| Audit, diagnose, or review style | Audit (no changes) |
+| Polish a story or chapter | Creative |
+| Polish an essay or paper | Academic-Formal |
+| Make it casual or conversational | Conversational |
+| Polish, tighten, or humanise | General |
 
-### Workflow A: Style Diagnosis (Audit Mode)
-Analyzes a draft's sentence cadence (burstiness), vocabulary repetition (perplexity), AI cliché density, and active/passive voice ratio. It outputs a score table with specific recommendations.
+If it could be either a proofread or a rewrite, it picks the smaller edit and tells you.
 
-### Workflow B: Style Forge & Refactoring (Rewrite Mode)
-Applies targeted refactoring based on one of four style profiles (Creative, Academic-Formal, General, Conversational). Enforces sentence length variation, synonym substitution, and syntax pivots to eliminate AI patterns.
+## Safe File Editing
 
-### Workflow C: Proofreading & Correction (Correction Mode)
-Performs a conservative error-correction pass. Corrects typos, spelling errors, punctuation, and syntax while strictly disabling burstiness, perplexity shifts, and vocabulary changes, leaving the author's original voice intact.
-
----
-
-## Automatic Intent Routing (Dispatcher)
-
-When you submit a text, Calligraph Sensei inspects your prompt and automatically routes it:
-
-1. **Proofreading Routing:** If the prompt contains error-correction keywords (e.g., *proofread, check grammar, fix spelling, typo, correct*), it runs **Workflow C**.
-2. **Style Diagnosis Routing:** If the prompt contains audit keywords (e.g., *audit, diagnose, review style, check metrics*), it runs **Workflow A**.
-3. **Explicit Style Routing:** If you name a specific style (e.g., *creative, formal, casual, academic*), it runs **Workflow B** using that profile.
-4. **Default Routing:** If the prompt is generic (e.g., *humanise, make sound human, polish*), it runs a quick style scan and executes **Workflow B** under the **General/Non-fiction** profile.
-
----
-
-## Full Output Examples
-
-### 1. Style Diagnosis Example (Workflow A)
-
-**Prompt:** `"Diagnose my writing: [paste text]"`
-
-**Output:**
-```text
-### Calligraph Sensei: Writing Style Diagnosis
-
-| Diagnostic Metric | Score / Finding | AI Risk Level | Observations |
-|---|---|---|---|
-| **Sentence Cadence** | SD = 1.4 | High | All sentences are between 12-14 words. Monotonous rhythm. |
-| **AI Cliché Density** | 4 buzzwords found | High | Found overused terms: *delve, testament, tapestry*. |
-| **Transition Style** | Formulaic | High | Paragraphs start with repetitive transitions: *Furthermore, Moreover*. |
-| **Passive Voice Ratio**| 25% of sentences | Medium | Passive structures slow down the argument. |
-
-#### Recommendations:
-- Apply Creative/Fiction mode to vary sentence lengths and inject sensory detail.
-- Run Academic-Formal to eliminate clichés while preserving rigorous structure.
+```bash
+python3 scripts/snapshot.py chapter.md            # 1. save a copy
+# 2. edit chapter.md
+python3 scripts/preserve_check.py <snapshot> chapter.md   # 3. confirm nothing was lost
+python3 scripts/voice_profile.py <snapshot> --against chapter.md   # 4. check for drift
 ```
 
-### 2. Style Refactoring Example (Workflow B)
+## Using Your Style Guide
 
-**Prompt:** `"Humanise this draft: It is important to note that the algorithm is efficient."`
+If your project has a style guide or voice notes, tell the skill or keep them in the project. For the linter, add `.calligraph.json`:
 
-**Output:**
-```text
-### Calligraph Sensei Review
-
-**Style Mode Applied:** Non-fiction / General
-
-#### Key Stylistic Adjustments:
-| Paragraph | Original Sentence | Revised Sentence | Optimization Technique |
-|---|---|---|---|
-| 1 | "It is important to note that the algorithm is efficient." | "The algorithm runs fast — and it does so without memory overhead." | Cut filler opener and applied burstiness variation |
-
-#### Polished Draft:
-The algorithm runs fast — and it does so without memory overhead.
+```json
+{ "allow": ["learnt"], "deny": ["utilize"], "em_dash": "allow" }
 ```
 
-### 3. Proofreading Example (Workflow C)
+## Output Examples
+
+### Style Edit Example
+
+**Prompt:** `"Polish this: It is important to note that the algorithm is efficient."`
+
+```text
+### Edit: General, light
+
+The algorithm is efficient.
+
+| Change | Example | Why |
+|---|---|---|
+| Cut filler | "It is important to note that" | The opener added nothing |
+
+Preservation: passed
+Questions for the author: Can you say how efficient? A number would be stronger.
+```
+
+### Proofreading Example
 
 **Prompt:** `"Proofread this paragraph: We has went to the store yesterday and buyed some apple's. It was a very importent task."`
 
 **Output:**
 ```text
-### Calligraph Sensei Proofread
+### Proofread
 
-**Style Mode Applied:** Proofreading / Correction
-
-#### Grammar & Spelling Corrections:
-| Paragraph / Section | Original Phrase | Corrected Phrase | Type of Issue Fixed | Explanation |
+| Location | Original | Corrected | Type | Reason |
 |---|---|---|---|---|
 | 1 | "We has went to the store yesterday" | "We went to the store yesterday" | Grammar | Fixed auxiliary verb usage |
 | 1 | "buyed" | "bought" | Grammar | Corrected irregular verb conjugation |
 | 1 | "apple's" | "apples" | Punctuation | Removed errant possessive apostrophe from plural |
 | 1 | "importent" | "important" | Spelling | Fixed typographical spelling error |
 
-#### Corrected Draft:
 We went to the store yesterday and bought some apples. It was a very important task.
+
+Queries (not changed): None
+Preservation: passed
 ```

@@ -1,29 +1,113 @@
-#!/usr/bin/env bash
+#!/usr/bin/env python3
+"""Check the repository's structure, docs, and skill independence. Standard library only."""
+from __future__ import annotations
 
-set -euo pipefail
+import ast
+import json
+import re
+import sys
+from pathlib import Path
 
-repository_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+ROOT = Path(__file__).resolve().parent.parent
+SKILLS = ("calligraph-sensei", "research-dojo", "truedraft")
+ROOT_FILES = ("README.md", "CHANGELOG.md", "LICENSE", "THIRD_PARTY_NOTICES.md", "docs/architecture.md", "docs/installation.md", "docs/releases.md")
+SKILL_FILES = ("SKILL.md", "README.md", "CHANGELOG.md", "docs/FEATURES.md", "docs/USAGE.md")
+SHARED_HELPER = "scripts/_mdtext.py"
+# Standard-library modules these scripts may use. Keeps the check working on Python 3.9.
+STDLIB = {"__future__", "argparse", "ast", "bisect", "calendar", "datetime", "hashlib", "ipaddress", "json", "os", "re", "shutil", "socket", "statistics", "sys", "time", "typing", "urllib", "xml", "collections", "pathlib"}
 
-required_paths=(
-  "README.md"
-  "CHANGELOG.md"
-  "LICENSE"
-  "docs/architecture.md"
-  "docs/installation.md"
-  "docs/releases.md"
-  "skills/calligraph-sensei/README.md"
-  "skills/calligraph-sensei/CHANGELOG.md"
-  "skills/truedraft/README.md"
-  "skills/truedraft/CHANGELOG.md"
-  "skills/research-dojo/README.md"
-  "skills/research-dojo/CHANGELOG.md"
-)
 
-for required_path in "${required_paths[@]}"; do
-  if [[ ! -f "${repository_root}/${required_path}" ]]; then
-    printf 'Missing required file: %s\n' "${required_path}" >&2
-    exit 1
-  fi
-done
+def frontmatter(text: str) -> dict:
+    match = re.match(r"---\n(.*?)\n---\n", text, re.S)
+    if not match:
+        return {}
+    block = match.group(1)
+    fields = {}
+    for key in ("name", "description"):
+        found = re.search(rf"^{key}:\s*(.+)$", block, re.M)
+        if found:
+            fields[key] = found.group(1).strip().strip('"')
+    version = re.search(r"^metadata:\n\s+version:\s*\"?([\d.]+)\"?", block, re.M)
+    if version:
+        fields["version"] = version.group(1)
+    return fields
 
-printf 'Skill Dojo skeleton structure is valid.\n'
+
+def check_links(errors: list) -> None:
+    for path in ROOT.rglob("*.md"):
+        if ".git" in path.parts or "corpus" in path.parts:
+            continue
+        text = re.sub(r"```.*?```", "", path.read_text(encoding="utf-8"), flags=re.S)
+        for target in re.findall(r"\]\(([^)\s]+)\)", text):
+            if re.match(r"[a-z]+:", target) or target.startswith("#"):
+                continue
+            file_part = target.split("#", 1)[0]
+            if file_part and not (path.parent / file_part).exists():
+                errors.append(f"{path.relative_to(ROOT)}: broken link {target}")
+
+
+def check_skill(name: str, errors: list) -> None:
+    base = ROOT / "skills" / name
+    for relative in SKILL_FILES:
+        if not (base / relative).is_file():
+            errors.append(f"{name}: missing {relative}")
+            return
+    skill = (base / "SKILL.md").read_text(encoding="utf-8")
+    fields = frontmatter(skill)
+    if fields.get("name") != name:
+        errors.append(f"{name}: frontmatter name is {fields.get('name')!r}")
+    if not 1 <= len(fields.get("description", "")) <= 1024:
+        errors.append(f"{name}: description must be 1 to 1024 characters")
+    newest = re.search(r"^## v([\d.]+)", (base / "CHANGELOG.md").read_text(encoding="utf-8"), re.M)
+    if not newest or newest.group(1) != fields.get("version"):
+        errors.append(f"{name}: SKILL.md version {fields.get('version')} differs from changelog {newest and newest.group(1)}")
+    stated = re.search(r"^\*\*v([\d.]+)\*\*", (base / "docs/FEATURES.md").read_text(encoding="utf-8"), re.M)
+    if stated and stated.group(1) != fields.get("version"):
+        errors.append(f"{name}: FEATURES.md says v{stated.group(1)}")
+    for path in base.rglob("*.md"):
+        if path.name == "CHANGELOG.md":  # history may name files that have since moved
+            continue
+        for reference in re.findall(r"`((?:references|pipeline|assets|examples|scripts)/[\w./-]+\.\w+)`", path.read_text(encoding="utf-8")):
+            if not (base / reference).exists():
+                errors.append(f"{path.relative_to(ROOT)}: missing file {reference}")
+    for path in (base / "evals").glob("*.json"):
+        json.loads(path.read_text(encoding="utf-8"))
+    local = {p.stem for p in (base / "scripts").glob("*.py")} if (base / "scripts").is_dir() else set()
+    for path in (base / "scripts").glob("*.py") if (base / "scripts").is_dir() else ():
+        text = path.read_text(encoding="utf-8")
+        if "skills/" in text or any(other in text for other in SKILLS if other != name):
+            errors.append(f"{path.relative_to(ROOT)}: refers to another skill")
+        for node in ast.walk(ast.parse(text)):
+            modules = []
+            if isinstance(node, ast.Import):
+                modules = [alias.name for alias in node.names]
+            elif isinstance(node, ast.ImportFrom) and node.module:
+                modules = [node.module]
+            for module in modules:
+                top = module.split(".")[0]
+                if top not in STDLIB and top not in local:
+                    errors.append(f"{path.relative_to(ROOT)}: non-standard import {top}")
+
+
+def main() -> int:
+    errors: list = []
+    for relative in ROOT_FILES:
+        if not (ROOT / relative).is_file():
+            errors.append(f"missing {relative}")
+    for name in SKILLS:
+        check_skill(name, errors)
+    copies = [ROOT / "skills" / name / SHARED_HELPER for name in SKILLS if (ROOT / "skills" / name / SHARED_HELPER).exists()]
+    if len({path.read_bytes() for path in copies}) > 1:
+        errors.append(f"copies of {SHARED_HELPER} differ")
+    check_links(errors)
+    for error in errors:
+        print(error, file=sys.stderr)
+    if errors:
+        print(f"{len(errors)} problem(s) found.", file=sys.stderr)
+        return 1
+    print("Skill Dojo structure is valid.")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

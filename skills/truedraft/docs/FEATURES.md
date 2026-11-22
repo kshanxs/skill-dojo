@@ -35,7 +35,7 @@ Automatic mode detection routes requests into prose-first, coding-first, or mixe
 | Stock-example avoidance | Replaces overused analogies with fresher examples |
 | Explain → example → implication | Keeps paragraphs reasoned instead of flat |
 | Style Randomization | Rotates 5 sentence types (Analytical, Causal, Comparative, Hypothetical, Observational) |
-| Perplexity & Burstiness | Varies sentence lengths (short/long mix) and injects low-frequency synonyms |
+| Rhythm and word choice | Varies sentence length where it helps and prefers exact, plain words |
 | Humanise Readability | 3 levels of readability tuning (Light / Standard / Conversational) |
 | Change summary | Shows what the rewrite stage changed and why via a Before/After table |
 | Learning Mode | Inline explanations (`💡 Learning note:`) detailing writing techniques |

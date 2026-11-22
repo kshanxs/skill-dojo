@@ -1,90 +1,45 @@
-# Research Dojo
+# 🔬 Research Dojo
 
-*The Adversarial Research & Synthesis Partner*
-
-Structured mapping · Multi-perspective audits · Contradiction discovery · Rigorous synthesis · Stress testing
-
----
-
-## Installation
+**Check the facts, dates, and sources in any non-fiction, and find out what you actually know.**
 
 ```bash
 npx skills add https://github.com/kshanxs/skill-dojo --skill research-dojo
 ```
 
-### Update
+## Try It
 
-```bash
-npx skills update research-dojo
-```
-
----
-
-## Quick Start
-
-Say this to initiate the process:
 ```text
-"I want to understand the topic: [TOPIC]"
+Fact-check this draft: chapter-3.md
+Is this reference real? [paste citation]
+Audit this claim: [claim]
+I want to understand the topic: [topic]
 ```
 
-The AI will guide you through the analytical pipeline, mapping the concepts before synthesizing and challenging the findings.
-
-**→ [Full usage guide with examples](docs/USAGE.md)**
-
----
-
-## Highlights
+## What You Get
 
 | | |
 |---|---|
-| **Step-by-Step Scaffolding** | A disciplined 7-step analysis pipeline from initial map to final judgment |
-| **High-Density Mapping** | Compact concepts, common misconceptions, and active debates |
-| **Multi-Perspective Table** | Evaluates claims, evidence, and blind spots across 6 distinct domains |
-| **Contradiction Auditing** | Identifies root causes of disagreements (data-driven vs. value-driven) |
-| **Falsifiability Gating** | Audits evidence and defines what specific data would change the conclusion |
-| **Dual-Depth Synthesis** | Generates both 200-word beginner and 500-word expert explanations |
-| **Adversarial Stress Test** | A dedicated, hostile critique phase to actively dismantle the synthesis |
+| 📋 **Claim ledger** | Every checkable claim, ranked, with its evidence and status |
+| 📅 **Date checks** | Impossible dates, wrong weekdays, reversed ranges, and age arithmetic |
+| 📚 **Source checks** | DOI, ISBN, ISSN, and arXiv validation, dead links, and retractions |
+| 🛡️ **Honest status** | Nothing is `verified` until someone has read a source |
+| ⚔️ **Seven-step analysis** | Map a topic, compare perspectives, then attack the conclusion |
 
-**→ [See all features and commands](docs/FEATURES.md)**
+Your draft is never changed. Reports go to separate files, and any flagged copy is a new file.
 
----
+## Run the Tools Directly
 
-## Command Reference
+Python 3.9+ with no dependencies:
 
-| Command Phrase | What happens |
-|---|---|
-| `"I want to understand the topic: [TOPIC]"` | Initializes the 7-step analysis on the chosen topic |
-| `"Run in interactive mode"` | Pauses after Step 3 for user course-corrections |
-| `"Run in one-shot mode"` | Executes all 7 steps in a single dense response |
-| `"Challenge the synthesis"` | Directly runs Step 6 (Stress Test) on an existing summary |
-| `"Audit this claim: [CLAIM]"` | Evaluates a single specific claim using Step 4 guidelines |
-
----
-
-## Package Structure
-
-```text
-skills/research-dojo/
-├── SKILL.md                 ← Agent instructions and workflow rules
-├── evals/
-│   └── evals.json           ← Test prompts for verification
-└── docs/
-    ├── USAGE.md              ← Detailed user examples and workflows
-    └── FEATURES.md           ← Comprehensive feature reference
+```bash
+python3 scripts/dojo_check.py draft.md --out-dir fact-check
+python3 scripts/dojo_check.py draft.md --out-dir fact-check --online
 ```
 
----
+The first command is fully offline. `--online` sends identifiers and URLs to public services, never your text.
 
-## Companion Skills
+## Learn More
 
-Research Dojo is Phase 0 of the three-skill pipeline:
+[Usage](docs/USAGE.md) · [Features](docs/FEATURES.md) · [Fact-check workflow](references/fact_check.md) · [Tool reference](references/tools.md) · [Changelog](CHANGELOG.md)
 
-1. **Research Dojo (Phase 0):** Stress-test claims, map debates, audit evidence, and produce verified synthesis notes.
-2. **[TrueDraft](../truedraft/README.md) (Phase 1):** Feed Research Dojo's audited output into TrueDraft's `notes_first` mode for structured, polished drafting.
-3. **[Calligraph Sensei](../calligraph-sensei/README.md) (Phase 2):** Apply final style refinement or conservative proofreading to the completed manuscript.
-
----
-
-## Changelog
-
-See [CHANGELOG.md](CHANGELOG.md) for version release details.
+Works on its own. It also pairs well with [TrueDraft](../truedraft/README.md) and [Calligraph Sensei](../calligraph-sensei/README.md).

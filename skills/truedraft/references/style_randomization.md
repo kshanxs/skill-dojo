@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Prevent repetitive sentence patterns that both plagiarism detectors and AI detectors flag. This framework defines the five sentence types that should be rotated across every paragraph, and introduces perplexity/burstiness simulation to reduce AI detection scores.
+Keep sentence patterns varied so the argument reads clearly. This framework defines the five sentence types and how to rotate them.
 
 ---
 
@@ -36,43 +36,37 @@ Every paragraph must include **at least two different sentence types**.
 
 **Bad (monotone):**
 > "X is a process that does Y. X also does Z. X is important because of W."
-> *(All analytical — flagged by pattern detectors)*
+> *(All analytical — repetitive to read)*
 
 **Good (varied):**
 > "X operates by doing Y [analytical]. As Y scales, Z becomes more prominent [causal]. Unlike traditional approaches, X does not require W [comparative]."
 
 ---
 
-## Perplexity & Burstiness Simulation
+## Rhythm and Word Choice
 
-AI detectors (GPTZero, Turnitin AI) assess two statistical properties:
+Vary rhythm because it helps the reader. Do not aim at any detector score, and do not swap in rarer words for their own sake.
 
-- **Perplexity** — how unpredictable the word choices are. AI text tends to be low-perplexity (predictable, common words in expected positions).
-- **Burstiness** — how much sentence length varies. Human writing is highly bursty — a very long sentence followed by a short one. AI text is monotonously medium-length.
-
-### Rule 1 — Length Variation (Burstiness)
-Every paragraph must have at least one sentence under 10 words AND one over 20 words.
+### Rule 1: Length Variation
+When a paragraph's sentences all run the same length, join or split one where the logic allows.
 
 **Bad (flat rhythm):**
 > "Machine learning systems process large amounts of data efficiently. They identify patterns across many training examples. These patterns are then generalised to new inputs."
-> *(All ~10 words — low burstiness)*
+> *(All about the same length)*
 
-**Good (bursty):**
+**Better:**
 > "Machine learning works by pattern recognition. Rather than encoding explicit rules, these systems derive their own decision logic from exposure to thousands of labelled examples — a process that makes them extraordinarily adaptable but equally dependent on the quality and diversity of the data they were trained on. This matters."
 > *(Short. Very long. Short again.)*
 
-### Rule 2 — Occasional Low-Frequency Vocabulary (Perplexity)
-Occasionally replace a common academic word with a less predictable but accurate synonym:
-- "important" → "consequential", "non-trivial", "pivotal"
-- "use" → "leverage", "deploy", "employ"
-- "shows" → "illustrates", "underscores", "surfaces"
-- "problem" → "constraint", "pathology", "tension"
-- "different" → "distinct", "divergent", "dissimilar"
+### Rule 2: Precise Vocabulary
+Use the plainest accurate word. Change a word only when the new one is more exact:
+- "important" -> say what depends on it
+- "utilize", "leverage" -> "use"
+- "shows" stays "shows" unless "proves", "suggests", or "implies" is more accurate
+- "problem" -> name the specific constraint or failure
 
-Apply to 1–2 words per paragraph — not every sentence (that creates its own detectable pattern).
-
-### Rule 3 — Mid-Sentence Pivots
-Insert a pivot or qualification mid-sentence to break predictable clause structure:
+### Rule 3: Qualifications Where They Belong
+Place a real qualification where it limits the claim:
 > "The algorithm, though efficient in most cases, degrades significantly when input distributions shift — a limitation that standard benchmarks rarely capture."
 
 ---
@@ -83,5 +77,5 @@ When reviewing a paragraph:
 1. Label each sentence by type
 2. If 3+ consecutive sentences share a type → rewrite one using a different type
 3. Check sentence length variation — if lengths are similar, break the longest into two or combine the shortest with its neighbour
-4. Replace 1–2 common words with less-predictable synonyms
+4. Replace vague words with more exact ones, only where needed
 5. Prefer embedded transitions — avoid "Furthermore", "Moreover", "In addition"

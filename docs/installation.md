@@ -6,7 +6,7 @@ All skills are installed from this repository using the `npx skills` CLI.
 
 ### Calligraph Sensei
 
-Style polishing, proofreading, readability, and AI detection mitigation.
+Proofreading and voice-preserving polish.
 
 ```bash
 npx skills add https://github.com/kshanxs/skill-dojo --skill calligraph-sensei
@@ -18,7 +18,7 @@ npx skills add https://github.com/kshanxs/skill-dojo --skill calligraph-sensei
 
 ### TrueDraft
 
-Structured academic drafting, originality rewriting, and citation-aware workflows.
+Structured academic drafting and citation-aware workflows.
 
 ```bash
 npx skills add https://github.com/kshanxs/skill-dojo --skill truedraft
@@ -30,7 +30,7 @@ npx skills add https://github.com/kshanxs/skill-dojo --skill truedraft
 
 ### Research Dojo
 
-Adversarial claim review, debate mapping, evidence auditing, and research synthesis.
+Fact, date, and source checking, plus adversarial research synthesis.
 
 ```bash
 npx skills add https://github.com/kshanxs/skill-dojo --skill research-dojo
@@ -42,7 +42,7 @@ npx skills add https://github.com/kshanxs/skill-dojo --skill research-dojo
 
 ## Install All Skills
 
-To install the full suite at once:
+Each skill is independent. To install all three:
 
 ```bash
 npx skills add https://github.com/kshanxs/skill-dojo --skill calligraph-sensei
@@ -60,9 +60,13 @@ npx skills update truedraft
 npx skills update research-dojo
 ```
 
+## Requirements
+
+The skills work as plain instructions in any agent that supports Agent Skills. The optional helper scripts in Research Dojo and Calligraph Sensei need Python 3.9 or newer and no packages. On Windows, run them with `python` or `py` in place of `python3`.
+
 ## Related Documentation
 
-- [Architecture and skill handoffs](architecture.md) — skill boundaries and the three-phase pipeline
-- [Release and versioning policy](releases.md) — how skill versions and changelogs work
-- [Suite changelog](../CHANGELOG.md) — cross-skill and suite-level history
-- [Root README](../README.md) — suite overview and quick start
+- [Architecture and skill handoffs](architecture.md): skill boundaries and interfaces
+- [Release and versioning policy](releases.md): how versions and changelogs work
+- [Suite changelog](../CHANGELOG.md): suite-level history
+- [Root README](../README.md): overview and quick start
